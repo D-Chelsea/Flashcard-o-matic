@@ -18,7 +18,6 @@ function DisplayCard({deck, deckId}) {
         }
     }
 
-
     return (
         <div className="row justify-content-center">
             <div className="col">
@@ -34,7 +33,6 @@ function DisplayCard({deck, deckId}) {
             </div>
         </div>
     )
-
 
 }
 
