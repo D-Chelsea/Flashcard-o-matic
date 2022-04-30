@@ -10,12 +10,11 @@ function Study() {
   const [deck, setDeck] = useState([]);
   const { deckId } = useParams();
 
-  useEffect(() => {
+  useEffect(() => { //add an response for the abort controller
     async function fetchDecks() {
-      const response = await readDeck(deckId);
-      const deckFromAPI = await response
-      console.log(deckFromAPI)
-      setDeck(deckFromAPI);
+        const {signal} = new AbortController()
+      const response = await readDeck(deckId, signal);
+      setDeck(response);
     }
     fetchDecks();
   }, [deckId]);
