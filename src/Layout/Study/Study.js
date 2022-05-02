@@ -20,6 +20,7 @@ function Study() {
   }, [deckId]);
 
 
+
     return (
       <div className="col">
         <Navbar deckId ={deckId} deck={deck} />

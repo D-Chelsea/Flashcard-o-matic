@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 function Navbar({deckId, deck}){
 
+    //TODO: I want to be able to import the deck name to show in the nav
+
     return (
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -10,12 +12,8 @@ function Navbar({deckId, deck}){
               <Link to={"/"}> Home</Link>
             </li>
 
-            <li className="breadcrumb-item">
-              <Link to={`/decks/${deckId}`}>{deck.name}</Link>
-            </li>
-
             <li className="breadcrumb-item active">
-              Study
+              Create Deck
             </li>
           </ol>
         </nav>

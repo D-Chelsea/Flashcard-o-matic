@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom";
 
-function Navbar({deckId, deck}){
+function Navbar(){
 
     return (
         <nav aria-label="breadcrumb">
@@ -10,12 +10,8 @@ function Navbar({deckId, deck}){
               <Link to={"/"}> Home</Link>
             </li>
 
-            <li className="breadcrumb-item">
-              <Link to={`/decks/${deckId}`}>{deck.name}</Link>
-            </li>
-
             <li className="breadcrumb-item active">
-              Study
+              Create Deck
             </li>
           </ol>
         </nav>
