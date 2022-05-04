@@ -2,10 +2,13 @@ import React, {useState, useEffect} from "react";
 import {Link, useHistory, useRouteMatch, useParams} from "react-router-dom";
 import { deleteDeck, readDeck } from "../../utils/api/index";
 import ListCards from "./ListCards";
+import Navbar from "./NavBar";
 
 function ListDecks() {
+  const history = useHistory()
   const {url} = useRouteMatch();
   const {deckId} = useParams();
+
   
   const [deck, setDeck] = useState([]);
 
@@ -17,10 +20,22 @@ function ListDecks() {
     getDeck();
     }, [deckId]);
 
-  if (!deck) return null;
+    async function handleDelete(deck) {
+        if (
+            window.confirm(
+                `Delete this deck? You will not be able to recover it`
+            )
+        ) {
+            history.push("/")
+            return await deleteDeck(deck.id);
+        }
+    }
+
+  if (deck.length === 0) return null;
   return (
     <div> 
       <div className="col">
+          <Navbar deck={deck}/>
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">{deck.name}</h5>
@@ -29,18 +44,10 @@ function ListDecks() {
               <div>
                 <Link to={`${url}/edit`} className="btn btn-secondary mr-1">Edit</Link>
                 <Link to={`${url}/study`} className="btn btn-primary mr-1">Study</Link>
-                <Link to={`${url}/cards/new`} className="btn btn-primary"><strong>+ Add Cards</strong></Link>
+                <Link to={`${url}/cards/new`} className="btn btn-primary">+ Add Cards</Link>
               </div>
               <div>
-                <button className="btn btn-danger" onClick={() => {
-                        if (window.confirm("Are you sure you want to delete this deck?")) {
-                          deleteDeck(deck.id);
-                          useHistory.push("/");
-                        } else {
-                          useHistory.push(`${url}`);
-                        }
-                      }
-                    }>
+                <button className="btn btn-danger" onClick={() => handleDelete(deck)}>
                       Delete
                   </button>
               </div>
@@ -50,7 +57,7 @@ function ListDecks() {
       </div>
       <div>
       <div className="container">
-        <h1>Cards</h1>
+        <h1 className="mt-3">Cards</h1>
         <ListCards cards={deck.cards}/>
       </div>
     </div>
