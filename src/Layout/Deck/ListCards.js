@@ -1,9 +1,10 @@
 import React , {useState} from "react"
-import {useHistory} from "react-router-dom"
+import {useHistory, Link, useRouteMatch} from "react-router-dom"
 import { deleteDeck, deleteCard } from "../../utils/api"
 
 function ListCards({cards}){
    const history = useHistory()
+   const {url} = useRouteMatch()
 
     async function handleDelete(card){
         if(window.confirm(`Delete this card? You will not be able to recover it`)){
@@ -28,7 +29,7 @@ function ListCards({cards}){
                             <div className="col-6">
                                 <p className="card-text"><b>back: </b>{card.back}</p>
                             </div> 
-                            <button className="btn btn-secondary mx-1">Edit</button>
+                            <Link to={`${url}/cards/${card.id}/edit`}className="btn btn-secondary mx-1" >Edit</Link>
                             <button className="btn btn-danger" onClick={() => handleDelete(card)}>Delete</button>
                         </div>
                     </div>

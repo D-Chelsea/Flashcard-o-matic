@@ -1,89 +1,114 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useHistory, useRouteMatch, useParams } from "react-router-dom";
-import { readDeck } from "../../utils/api/index";
-import Navbar from "./NavBar";
+import { readDeck, updateDeck } from "../../utils/api/index";
+import NavBar from "./NavBar";
 
 
 
 
 function EditDeck(){
-    // const initialFormState = {
-    //     name: "",
-    //     description: "",
-    // }
-
-    // const [newDeck, setNewDeck] = useState(initialFormState);
-
-    // async function handleSubmit(e) {
-    //     e.preventDefault();
-    //     const response = await createDeck(newDeck);
-    //     useHistory.push(`/decks/${response.id}`);
-    // }
-
-    // const handleChange = (event) => {
-    //     setNewDeck({...newDeck, [event.target.name]: event.target.value});
-    // };
-    const [deck, setDeck] = useState([]);
-    const {url} = useRouteMatch();
-    const {deckId} = useParams();
+    const { deckId } = useParams();
+    const history = useHistory();
+    const initialDeckState = {
+        id: "",
+        name: "",
+        description: "",
+    };
+    const [deck, setDeck] = useState(initialDeckState);
 
     useEffect(() => {
-        async function getDeck() {
-          const response = await readDeck(deckId);
-          setDeck(response);
+        async function fetchData() {
+            const abortController = new AbortController();
+            try {
+                const response = await readDeck(deckId, abortController.signal);
+                setDeck(response);
+            } catch (error) {
+                console.error("Something went wrong", error);
+            }
+            return () => {
+                abortController.abort();
+            };
         }
-        getDeck();
-    }, [deckId]);
-    console.log(deck)
+        fetchData();
+    }, []);
 
-        
-  return (
-      <div className="col-0 mx-auto">
-          <div>
-          </div>
-          <header>
-              <h2>Edit Deck</h2>
-          </header>
-          <div className="card">
-            <div className="card-body">
-                <form>
-                    <div>
-                        <label>Name:</label><br />
+    function handleChange({ target }) {
+        setDeck({
+            ...deck,
+            [target.name]: target.value,
+        });
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const abortController = new AbortController();
+        const response = await updateDeck({ ...deck }, abortController.signal);
+        history.push(`/decks/${deckId}`);
+        return response;
+    }
+
+    async function handleCancel() {
+        history.push(`/decks/${deckId}`);
+    }
+
+    return (
+        <div>
+            <div className="col-0 p-">
+            <nav aria-label="breadcrumb">
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                        <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
+                    </li>
+                    <li className="breadcrumb-item active">Edit Deck</li>
+                </ol>
+             </nav>
+            </div>
+            <header>
+                <h2>Edit Deck</h2>
+            </header>
+            <form onSubmit={handleSubmit}>
+
+                <div className="card">
+                <div className="card-body">
+                    <div className="form-group">
+                        <label>Name</label>
                         <input
                             id="name"
-                            type="text"
                             name="name"
-                            placeholder="Deck Name"
-                            onChange=""
-                            value=""
-                            style={{width: "100%"}}
+                            className="form-control"
+                            onChange={handleChange}
+                            type="text"
+                            value={deck.name}
                         />
                     </div>
-                    <br />
-                    <div>
-                        <label>description:</label><br />
-                        <textarea 
+                    <div className="form-group">
+                        <label>Description</label>
+                        <textarea
                             id="description"
-                            type="textarea"
                             name="description"
-                            rows="3"
-                            placeholder="Brief description of the deck"
-                            onChange=""
-                            value=""
-                            style={{width: "100%"}}
+                            className="form-control"
+                            onChange={handleChange}
+                            type="text"
+                            value={deck.description}
                         />
                     </div>
-                    <Link to="/" className="btn btn-secondary mr-3">
-                        Cancel
-                    </Link>
                     <button
-                        className="btn btn-primary" type="submit" onClick="">Submit
+                        className="btn btn-secondary mx-1"
+                        onClick={() => handleCancel()}
+                    >
+                        Cancel
                     </button>
-                </form>
-            </div>
-          </div>
-      </div>
-  )
+                    <button className="btn btn-primary mx-1" type="submit">
+                        Submit
+                    </button>
+                </div>
+                </div>
+            </form>
+        </div>
+    );
 }
 
 export default EditDeck
