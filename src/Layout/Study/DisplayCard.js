@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Link, useRouteMatch, useHistory, useParams} from "react-router-dom";
-import { readDeck } from "../../utils/api"; //make sure the tests want the read decks or pass as parameters
+import React, {useState} from "react";
+import { useHistory} from "react-router-dom";
 import NotEnoughCards from "./NotEnoughCards";
 
 
@@ -19,7 +18,16 @@ function DisplayCard({deck, deckId}) {
             setCard((card) => card +1)
         }
     }
-    //when i get back to working on this, I want to make an if statement here to run the notenoughcards frist in order for the test to catch it.
+
+
+
+    // if(deck.cards.length < 3){
+    //     return (
+    //         <NotEnoughCards deck={deck}/>
+    //     )
+    // }
+
+
     return (
         <div>
             {deck.cards && deck.cards.length  &&

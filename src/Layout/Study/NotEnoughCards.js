@@ -1,16 +1,26 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 
 function NotEnoughCards({deck}){
+     const { deckId } = useParams();
+     
     return (
         
         <div>
-        <h1>Not enough cards.</h1>
-            {deck.cards &&
-            <div>
-                <h5 className="card-title">{deck.name}: Study</h5>
-                <p>You need at least 3 cards to study. there are only {deck.cards.length} in this deck</p>
-            </div> 
-            }
+          <div className="card-body">
+            <h5 className="card-title">Not enough cards.</h5>
+            <p className="card-text">
+              You need at least 3 cards to study. There are {deck.cards.length} cards
+              in this deck.
+            </p>
+
+            <Link
+              to={`/decks/${deckId}/cards/new`}
+              className="btn btn-primary"
+            >
+              Add Cards
+            </Link>
+          </div>
         </div>
     )
 }

@@ -44,7 +44,7 @@ function EditCard(){
     function handleBack(e) {
       setCard({ ...card, back: e.target.value });
     }
-    console.log(card)
+ 
   
     return (
       <div>

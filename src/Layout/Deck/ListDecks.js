@@ -45,7 +45,7 @@ function ListDecks() {
               <div>
                 <Link to={`${url}/edit`} className="btn btn-secondary mr-1">Edit</Link>
                 <Link to={`${url}/study`} className="btn btn-primary mr-1">Study</Link>
-                <Link to={`${url}/cards/new`} className="btn btn-primary">+ Add Cards</Link>
+                <Link to={`${url}/cards/new`} className="btn btn-primary">+ Add Card</Link>
               </div>
               <div>
                 <button className="btn btn-danger" onClick={() => handleDelete(deck)}>

@@ -324,6 +324,7 @@ describe("Decks", () => {
 
     const deckName = await screen.findByText("Mock Study Deck 13");
     expect(deckName).toBeTruthy();
+    console.log(screen)
 
     const notEnoughCards = await screen.findByText(/Not enough cards/i);
     expect(notEnoughCards).toBeTruthy();
