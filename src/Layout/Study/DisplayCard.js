@@ -20,17 +20,9 @@ function DisplayCard({deck, deckId}) {
     }
 
 
-
-    // if(deck.cards.length < 3){
-    //     return (
-    //         <NotEnoughCards deck={deck}/>
-    //     )
-    // }
-
-
     return (
         <div>
-            {deck.cards && deck.cards.length  &&
+            {deck.cards &&
                 <div className="row justify-content-center">
                      <div className="col">
                          <div className="card">

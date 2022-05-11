@@ -10,13 +10,23 @@ function AddCard() {
   const [front, setFront] = useState({"front": ""});
   const [back, setBack] = useState({"back": ""});
 
+
+  
   useEffect(() => {
-    const deckInfo = async () => {
-      const response = await readDeck(deckId);
-      setDeck(() => response);
-    };
+    async function deckInfo() {
+        const abortController = new AbortController();
+        try {
+            const response = await readDeck(deckId, abortController.signal);
+            setDeck(response);
+        } catch (error) {
+            console.error(error);
+        }
+        return () => {
+            abortController.abort();
+        };
+    }
     deckInfo();
-  }, [deckId]);
+}, [deckId]);
 
   function handleFront(event) {
     setFront({...front, "front": event.target.value});
@@ -53,15 +63,29 @@ function AddCard() {
             </li>
           </ol>
         </nav>  
-    <div>
+    <div className="card">
+      <div className="card-body">
+        <div>
+          <h1>{`${deck.name}: Add Card`}</h1>
       <form>
         <div className="form-group">
-          <label htmlFor="front">Front:</label>
-          <textarea className="form-control" id="front" rows="3" placeholder="Front side of card" value={front.front} onChange={handleFront}></textarea>
+          <label><strong>Front:</strong></label>
+          <textarea 
+            className="form-control" 
+            id="front" rows="3" 
+            placeholder="Front side of card" 
+            value={front.front} 
+            onChange={handleFront}>
+          </textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="back">Back:</label>
-          <textarea className="form-control" id="back" rows="3" placeholder="Back side of card" value={back.back} onChange={handleBack}></textarea>
+          <label><strong>Back:</strong></label>
+          <textarea 
+            className="form-control" 
+            id="back" rows="3" 
+            placeholder="Back side of card" 
+            value={back.back} 
+            onChange={handleBack}></textarea>
         </div>
         
         <button 
@@ -75,6 +99,8 @@ function AddCard() {
           onClick={handleSubmit}>Submit</button>
 
       </form>
+      </div>
+    </div>
     </div>
     </div>
   )

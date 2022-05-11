@@ -14,12 +14,21 @@ function ListDecks() {
   const [deck, setDeck] = useState([]);
 
   useEffect(() => {
+    const abortController = new AbortController()
     async function getDeck() {
-      const response = await readDeck(deckId);
-      setDeck(response);
-    }
-    getDeck();
+        try{
+          const response = await readDeck(deckId, abortController.signal);
+          setDeck(response);
+        }catch(error){
+          console.log(error)
+        }
+        return () => {
+          abortController.abort();
+      };
+      }
+    getDeck()
     }, [deckId]);
+
 
     async function handleDelete(deck) {
         if (

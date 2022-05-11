@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import { Link, useHistory, useRouteMatch, useParams } from "react-router-dom";
+import { Link, useHistory,useParams } from "react-router-dom";
 import { readDeck, updateDeck } from "../../utils/api/index";
-import NavBar from "./NavBar";
+
 
 
 
@@ -23,7 +23,7 @@ function EditDeck(){
                 const response = await readDeck(deckId, abortController.signal);
                 setDeck(response);
             } catch (error) {
-                console.error("Something went wrong", error);
+                console.error(error);
             }
             return () => {
                 abortController.abort();

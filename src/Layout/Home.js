@@ -8,11 +8,19 @@ function Home(){
    const history = useHistory()
     //fetching the decks from API
     useEffect(() => {
+      const abortController = new AbortController();
         async function fetchDecks() {
-          const response = await listDecks();
-          setDecks(response);
+          try{
+            const response = await listDecks(abortController.signal);
+            setDecks(response);
+        } catch (error) {
+          console.log(error)
         }
-        fetchDecks();
+        return () => {
+          abortController.abort();
+      };
+      }
+      fetchDecks()
       }, []);
 
       async function handleDelete(deck) {

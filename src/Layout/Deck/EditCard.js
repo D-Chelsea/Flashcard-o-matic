@@ -9,28 +9,38 @@ function EditCard(){
     const { deckId, cardId } = useParams();
     const history = useHistory();
   
+    useEffect(() =>{
+      async function cardInfo(){
+        const abortController = new AbortController()
+        try{
+          const response= await readCard(cardId, abortController.signal)
+          setCard(response)
+        }catch(error){
+          console.log(error)
+        }
+        return () =>{
+          abortController.abort()
+        }
+      }
+      cardInfo()
+    }, [cardId])
+  
     useEffect(() => {
-      const abortController = new AbortController();
-  
-      const cardInfo = async () => {
-        const response = await readCard(cardId, abortController.signal);
-        setCard(() => response);
-      };
-      cardInfo();
-      return () => abortController.abort();
-    }, [cardId]);
-  
-    useEffect(() => {
-      const abortController = new AbortController();
-  
-      const deckInfo = async () => {
-        const response = await readDeck(deckId, abortController.signal);
-        setDeck(() => response);
-      };
-  
+      async function deckInfo() {
+          const abortController = new AbortController();
+          try {
+              const response = await readDeck(deckId, abortController.signal);
+              setDeck(response);
+          } catch (error) {
+              console.error(error);
+          }
+          return () => {
+              abortController.abort();
+          };
+      }
       deckInfo();
-      return () => abortController.abort();
-    }, [deckId]);
+  }, [deckId]);
+
   
     const handleSubmit = async (event) => {
       event.preventDefault();
