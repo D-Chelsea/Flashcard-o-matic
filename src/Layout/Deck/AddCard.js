@@ -96,7 +96,7 @@ function AddCard() {
         <button 
           type="button"
           className="btn btn-primary"
-          onClick={handleSubmit}>Submit</button>
+          onClick={handleSubmit}>Add Card</button>
 
       </form>
       </div>
