@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { updateCard, readDeck, readCard } from "../../utils/api/index";
+import CardForm from "./CardForm"
 
 function EditCard(){
     const [deck, setDeck] = useState([]);
@@ -9,21 +10,6 @@ function EditCard(){
     const { deckId, cardId } = useParams();
     const history = useHistory();
   
-    useEffect(() =>{
-      async function cardInfo(){
-        const abortController = new AbortController()
-        try{
-          const response= await readCard(cardId, abortController.signal)
-          setCard(response)
-        }catch(error){
-          console.log(error)
-        }
-        return () =>{
-          abortController.abort()
-        }
-      }
-      cardInfo()
-    }, [cardId])
   
     useEffect(() => {
       async function deckInfo() {
@@ -41,20 +27,7 @@ function EditCard(){
       deckInfo();
   }, [deckId]);
 
-  
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      await updateCard(card);
-      history.push(`/decks/${deck.id}`);
-    };
-  
-    function handleFront(e) {
-      setCard({ ...card, front: e.target.value });
-    }
-    function handleBack(e) {
-      setCard({ ...card, back: e.target.value });
-    }
- 
+
   
     return (
       <div>
@@ -71,40 +44,11 @@ function EditCard(){
             </li>
           </ol>
         </nav>
-        <form onSubmit={handleSubmit}>
-          <div className="card">
-            <div className="card-body">
-              <div className="form-group">
-                <label><strong>Front:</strong></label><br />
-                <textarea
-                className="form-control"
-                id="front"
-                placeholder="Front side of card"
-                value={card.front}
-                onChange={handleFront}
-                style={{width: "100%"}}>
-                </textarea>
-              </div>
-              <div className="form-group">
-                <label><strong>Back:</strong></label><br />
-                <textarea
-                className="form-control"
-                id="front"
-                placeholder="Back side of card"
-                value={card.back}
-                onChange={handleBack}
-                style={{width: "100%"}}>
-                </textarea>
-              </div>
-              <button className="btn btn-primary">Submit</button>
-              <button className="btn btn-secondary mx-1">Cancel</button>
-            </div>
-          </div>
-        </form>
+        <div>
+          <CardForm />
+        </div>
       </div>
     );
-
-  
 }
 
 export default EditCard
