@@ -4,7 +4,7 @@ import { createDeck } from "../../utils/api/index";
 import Navbar from "./NavBar";
 
 function CreateDeck() {
-
+    const history = useHistory()
     const initialFormState = {
         name: "",
         description: "",
@@ -15,7 +15,7 @@ function CreateDeck() {
     async function handleSubmit(e) {
         e.preventDefault();
         const response = await createDeck(newDeck);
-        useHistory.push(`/decks/${response.id}`);
+        history.push(`/decks/${response.id}`);
     }
 
     const handleChange = (event) => {
