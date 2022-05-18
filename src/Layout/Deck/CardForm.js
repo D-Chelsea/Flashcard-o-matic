@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {useHistory, useParams, Link, useLocation} from "react-router-dom";
-import { createCard, readDeck, updateDeck, readCard, updateCard} from "../../utils/api/index";
+import {useHistory, useParams, useLocation} from "react-router-dom";
+import { createCard, readDeck, readCard, updateCard} from "../../utils/api/index";
 
 function CardForm(){
     const [deck, setDeck] = useState([]);
@@ -80,12 +80,13 @@ function CardForm(){
       }
     
     
-      function handleAddSubmit() {
+      function handleAddSubmit(e) {
+        e.preventDefault();
         createCard(parseInt(deckId), {...front, ...back});
         setFront({"front": ""});
         setBack({"back": ""});
       }
-    
+
     return(
         <div>
             <form onSubmit={handleAddSubmit}>
@@ -95,7 +96,7 @@ function CardForm(){
                         className="form-control" 
                         id="front" rows="3" 
                         placeholder={isEdit? null : "Front side of card"}
-                        value={isEdit ? card.front : front.front} 
+                        value={isEdit ? card.front || '' : front.front || ''} 
                         onChange={isEdit ? handleEditFront : handleAddFront}>
                     </textarea>
                 </div>
@@ -105,7 +106,7 @@ function CardForm(){
                     className="form-control" 
                     id="back" rows="3" 
                     placeholder={isEdit ? null :"Back side of card"} 
-                    value={isEdit ? card.back : back.back} 
+                    value={isEdit ? card.back || '' : back.back || ''} 
                     onChange={isEdit ? handleEditBack : handleAddBack}>
                     </textarea>
                  </div>
