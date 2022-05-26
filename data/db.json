@@ -9,18 +9,13 @@
       "name": "React Router",
       "description": "React Router is a collection of navigational components that compose declaratively with your application.",
       "id": 2
-    },
-    {
-      "name": "hkgflsmdf",
-      "description": "hgfshtgfsd",
-      "id": 3
     }
   ],
   "cards": [
     {
       "id": 1,
-      "front": "Differentiate between Real and Virtual njvfkcnzjnmcvxz",
-      "back": "Virtual DOM updates are faster but do not directly update thedsavmdznvm,xc",
+      "front": "",
+      "back": "",
       "deckId": 1
     },
     {
@@ -53,6 +48,30 @@
       "back": "b",
       "deckId": 1,
       "id": 7
+    },
+    {
+      "front": "",
+      "back": "",
+      "deckId": 1,
+      "id": 8
+    },
+    {
+      "front": "",
+      "back": "",
+      "deckId": 1,
+      "id": 9
+    },
+    {
+      "front": "",
+      "back": "",
+      "deckId": 1,
+      "id": 10
+    },
+    {
+      "front": "",
+      "back": "",
+      "deckId": 1,
+      "id": 11
     }
   ]
 }

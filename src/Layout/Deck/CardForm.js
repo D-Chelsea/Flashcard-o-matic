@@ -11,6 +11,8 @@ function CardForm(){
     const {pathname} = useLocation();
     const [front, setFront] = useState({"front": ""});
     const [back, setBack] = useState({"back": ""});
+    const [formErrors, setFormErrors] = useState({})
+    const [isSubmit, setIsSubmit]= useState(false)
 
   useEffect(() => {
     async function deckInfo() {
@@ -51,13 +53,34 @@ function CardForm(){
         }
         addOrEdit();
       }, [pathname, cardId])
+      //useEffect for the validation
+      useEffect(()=>{
+        if(Object.keys(formErrors).length === 0 && isSubmit){
+          return front, back
+        }
+      },[formErrors])
 
     //edit card
+    const validateEdit= (values) => {
+      const errors = {}
+
+      if(!values.front){
+        errors.front = "card front must include information"
+      }
+      if(!values.back){
+        errors.back = "card back must include information"
+      }
+      return errors
+    }
+
     const handleEditSubmit = async (event) => {
         event.preventDefault();
         await updateCard(card);
-        history.push(`/decks/${deck.id}`);
+        setFormErrors(validateEdit(card))
+        setIsSubmit(true)
+        // history.push(`/decks/${deck.id}`);
       };
+
     
       function handleEditFront(e) {
         setCard({ ...card, front: e.target.value });
@@ -67,12 +90,24 @@ function CardForm(){
       }
 
     //   //addCard
+    const validateAdd= (values) => {
+      const errors = {}
+
+      if(!values.front){
+        errors.front = "card front must include information"
+      }
+      if(!values.back){
+        errors.back = "card back must include information"
+      }
+      return errors
+    }
+
       function handleAddFront(event) {
         setFront({...front, "front": event.target.value});
       }
     
       function handleAddBack(event) {
-        setBack({...back, "back": event.target.value});
+      setBack({...back, "back": event.target.value});
       }
      
       function handleCancel() {
@@ -80,8 +115,11 @@ function CardForm(){
       }
     
     
-      function handleAddSubmit() {
+      function handleAddSubmit(e) {
+        e.preventDefault()
         createCard(parseInt(deckId), {...front, ...back});
+        setFormErrors(validateEdit({...front, ...back}))
+        setIsSubmit(true)
         setFront({"front": ""});
         setBack({"back": ""});
       }
@@ -89,6 +127,9 @@ function CardForm(){
     return(
         <div>
             <form onSubmit={handleAddSubmit}>
+            <p>{
+            //this is to show an error if there are formErrors for the front
+            isEdit? formErrors.front : formErrors.front}</p>
             <div className="form-group">
                  <label><strong>Front:</strong></label>
                      <textarea 
@@ -99,6 +140,9 @@ function CardForm(){
                         onChange={isEdit ? handleEditFront : handleAddFront}>
                     </textarea>
                 </div>
+                <p>{
+                //this is to show an error if there are formErros for the back
+                isEdit? formErrors.back : formErrors.back}</p>
                 <div className="form-group">
                 <label><strong>Back:</strong></label>
                     <textarea 
