@@ -44,30 +44,11 @@
   "devDependencies": {
     "concurrently": "^5.3.0",
     "json-server": "^0.16.1",
-    "react-error-overlay": "^6.0.9",
-    "nodemon": "^2.0.3"
+    "react-error-overlay": "^6.0.9"
   },
     "resolutions": {
       "//": "See https://github.com/facebook/create-react-app/issues/11773",
       "react-error-overlay": "6.0.9"
     }
-    {
-      "name": "name-generator",
-      "version": "1.0.0",
-      "engines": {
-        "node": "12.13.0"
-      },
-      "description": "",
-      "main": "server.js",
-      "scripts": {
-        "start": "node server",
-        "server": "nodemon server.js",
-        "client": "npm start --prefix client"
-      },
-      "keywords": [],
-      "dependencies": {
-        "express": "^4.17.1",
-        "cors": "^2.8.5"
-      },
-    }
-}
+  }
+
