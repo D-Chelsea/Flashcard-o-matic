@@ -130,9 +130,10 @@ function CardForm(){
             <p>{
             //this is to show an error if there are formErrors for the front
             isEdit? formErrors.front : formErrors.front}</p>
+            
             <div className="form-group">
                  <label><strong>Front:</strong></label>
-                     <textarea 
+                     <textarea required
                         className="form-control" 
                         id="front" rows="3" 
                         placeholder={isEdit? null : "Front side of card"}
@@ -145,7 +146,8 @@ function CardForm(){
                 isEdit? formErrors.back : formErrors.back}</p>
                 <div className="form-group">
                 <label><strong>Back:</strong></label>
-                    <textarea 
+                
+                    <textarea required
                     className="form-control" 
                     id="back" rows="3" 
                     placeholder={isEdit ? null :"Back side of card"} 
